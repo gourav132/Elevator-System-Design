@@ -36,6 +36,7 @@ export default function Elevator({id}) {
     }
   });
 
+  // Internal Request comes from Inside the Elevator
   const handleInternalRequest = (num) => {
     console.log("Current Floor: ", Number(externalRequest.currentFloor));
     console.log("Requested Floor: ", num);
@@ -59,22 +60,23 @@ export default function Elevator({id}) {
   
 
   return (
-    <div className='w-10/12 mt-10 mx-auto'>
+    <div className=''>
         <div className='flex items-center'>
             <div className='overflow-hidden'>
-                <div className={`w-full h-14 bg-transparent border-2 border-zinc-900 rounded-lg flex justify-center items-center font-bold text-white ${selectedElevator===id ? 'border-green-200' : 'border-zinc-900'}`}>
+                <div className={`w-full h-14 bg-transparent border-2 border-zinc-900 rounded-lg flex justify-center items-center font-bold text-white ${selectedElevator===id ? 'border-green-400' : 'border-zinc-800'}`}>
                     <p>ELV{id}- FLOOR <span className='text-green-400'> {id===1 ? elevator.elevatorOne: (id===2 ? elevator.elevatorTwo : elevator.elevatorThree)}</span></p>
                 </div>
-                <div id='elvContainer' className={`overflow-hidden mt-5 border-2 rounded-md p-3 border-zinc-900 ${selectedElevator===id ? 'border-green-200' : 'border-zinc-900'}`}>
+                <div id='elvContainer' className={`overflow-hidden mt-5 border-2 rounded-md p-3 border-zinc-900 ${selectedElevator===id ? 'border-green-400' : 'border-zinc-900'}`}>
                 <motion.div
-                    animate={{y: isAnimating ? externalRequest.direction : 0}}
+                    // animate={{y: isAnimating ? externalRequest.direction : 0}}
+                    animate={{y: isAnimating ? "-110%" : 0}}
                     transition={{
-                      duration: 1.5, // Adjust animation duration as needed
-                      repeat: isAnimating ? 2 : "",
-                      ease: 'linear',
+                      duration: 1.5,
+                      repeat: Infinity,
+                      repeatType: "loop",
+                      ease: 'linear', 
                       repeatDelay: 0.5
                     }}
-                    exit={{y:0}}
                     className='w-64 h-80 bg-zinc-800 rounded-lg overflowy-hidden z-10'
                   >
                   {selectedElevator === id && (
@@ -90,7 +92,6 @@ export default function Elevator({id}) {
                 </div>
             </div>
         </div>
-        <button onClick={() =>setIsAnimating(!isAnimating)}>stop</button>
     </div>
   )
 }

@@ -1,21 +1,17 @@
 import React, { useState, useContext } from 'react'
 import { RequestContext } from '../../Context/RequestContext';
+import { motion, AnimatePresence } from 'framer-motion';
 
 export default function Hero() {
   const [ floorChangeToggle, setFloorChangeToggle ] = useState(false);
   const [floor, setFloor ] = useState(null);
-  const [ externalRequest, setExternalRequest, elevator, setElevator ] = useContext(RequestContext);
+  const [ externalRequest, setExternalRequest ] = useContext(RequestContext);
 
   const handleFloorChange = () => {
     // add validation for floor number not exceeding 0-10
     if(floor >= 0 && floor <= 10) {
       setExternalRequest({...externalRequest, currentFloor: floor});
       setFloorChangeToggle(false)
-      // setElevator({
-      //   elevatorOne: 0,
-      //   elevatorTwo: 5,
-      //   elevatorThree: 10
-      // })
     }
   }
 
@@ -27,11 +23,13 @@ export default function Hero() {
           <p>Current Floor <span>{externalRequest.currentFloor}</span></p>
         </button>
 
-        { floorChangeToggle && 
-          <div className='absolute right-0 top-12 flex gap-1 items-center'>
-            <input onChange={(e) => setFloor(e.target.value)} className='w-38 px-3 pr-14 py-3 rounded bg-slate-800 text-xs relative outline-none focus:ring-2' type="text" placeholder='Your Current floor (0-10)' />
-            <button onClick={handleFloorChange} className='text-xs px-2 py-1 bg-blue-500 rounded-sm absolute right-2 hover:ring-2'>SET</button>
-          </div>
+        { floorChangeToggle &&
+            <AnimatePresence>
+              <motion.div initial={{y: "-50%"}} animate={{y: "0"}} exit={{y: "50%"}}  className='absolute right-0 top-12 flex gap-1 items-center'>
+                <input onChange={(e) => setFloor(e.target.value)} className='w-38 px-3 pr-14 py-3 rounded bg-slate-800 text-xs relative outline-none focus:ring-2' type="text" placeholder='Your Current floor (0-10)' />
+                <button onClick={handleFloorChange} className='text-xs px-2 py-1 bg-blue-500 rounded-sm absolute right-2 hover:ring-2'>SET</button>
+              </motion.div>
+          </AnimatePresence>
         }
       </div>
     </div>

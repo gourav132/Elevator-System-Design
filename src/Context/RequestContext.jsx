@@ -17,6 +17,8 @@ export const RequestProvider = ( props ) => {
         elevatorThree: 10,      //covers 8-9-[10]       if the user is between 8 - 10 then select elevator 3
     })
 
+    const [ currentFloor, setCurrentFloor ] = useState(0);
+
     return (
         <RequestContext.Provider value={[externalRequest, setExternalRequest, elevator, setElevator]} >
             { props.children }
